@@ -1,0 +1,49 @@
+name: Deploy to EKS
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        {
+          description: Environment,
+          required: true,
+          default: dev,
+          type: choice,
+          options: [dev, prod],
+        }
+permissions: { contents: read, packages: write, id-token: write }
+env: { AWS_REGION: us-west-2, REGISTRY: ghcr.io }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    strategy: { matrix: { service: [catalog, pricing, inventory, orders, payments, gateway] } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          {
+            registry: ghcr.io,
+            username: "${{ github.actor }}",
+            password: "${{ secrets.GITHUB_TOKEN }}",
+          }
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.service == 'gateway' && './gateway' || format('./services/{0}', matrix.service) }}
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/meridian-${{ matrix.service }}:${{ github.sha }}
+  rollout:
+    needs: deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          {
+            role-to-assume: "${{ secrets.AWS_DEPLOY_ROLE_ARN }}",
+            aws-region: "${{ env.AWS_REGION }}",
+          }
+      - run: aws eks update-kubeconfig --name meridian-commerce-${{ inputs.environment }} --region $AWS_REGION
+      - run: sed -i "s|ghcr.io/OWNER/|ghcr.io/${{ github.repository_owner }}/|g; s|:latest|:${{ github.sha }}|g" k8s/platform.yaml
+      - run: kubectl apply -k k8s
+      - run: kubectl -n meridian rollout status deployment/gateway --timeout=5m

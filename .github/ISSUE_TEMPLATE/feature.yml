@@ -1,0 +1,23 @@
+name: Feature
+description: Propose a testable product outcome
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      { label: User story, description: "As a role, I want a capability so that a benefit." }
+    validations: { required: true }
+  - type: textarea
+    id: criteria
+    attributes: { label: Acceptance criteria, description: List observable pass/fail conditions. }
+    validations: { required: true }
+  - type: textarea
+    id: risks
+    attributes:
+      {
+        label: Risks and dependencies,
+        description: Include security,
+        data,
+        and operational impact.,
+      }

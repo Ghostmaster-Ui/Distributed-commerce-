@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: meridian-services
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["catalog:8000", "pricing:8001", "inventory:8002", "orders:8003", "payments:8004"]

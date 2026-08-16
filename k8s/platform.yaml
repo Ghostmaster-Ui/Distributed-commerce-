@@ -1,0 +1,184 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: meridian-config }
+data:
+  CATALOG_SERVICE_URL: http://catalog:8000
+  PRICING_URL: http://pricing:8001
+  INVENTORY_URL: http://inventory:8002
+  ORDER_SERVICE_URL: http://orders:8003
+  PAYMENT_URL: http://payments:8004
+---
+apiVersion: v1
+kind: Secret
+metadata: { name: meridian-secrets }
+type: Opaque
+stringData:
+  DATABASE_URL: replace-from-aws-secrets-manager
+  REDIS_URL: replace-from-aws-secrets-manager
+  KAFKA_BOOTSTRAP_SERVERS: replace-from-aws-secrets-manager
+  JWT_SECRET: replace-from-aws-secrets-manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: catalog, labels: { app: catalog } }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: catalog } }
+  template:
+    metadata: { labels: { app: catalog } }
+    spec:
+      securityContext: { runAsNonRoot: true, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: catalog
+          image: ghcr.io/OWNER/meridian-catalog:latest
+          ports: [{ containerPort: 8000 }]
+          envFrom: [{ secretRef: { name: meridian-secrets } }]
+          readinessProbe: { httpGet: { path: /health, port: 8000 }, initialDelaySeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, initialDelaySeconds: 15 }
+          resources:
+            { requests: { cpu: 100m, memory: 128Mi }, limits: { cpu: 500m, memory: 512Mi } }
+          securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: ["ALL"] } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: pricing, labels: { app: pricing } }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: pricing } }
+  template:
+    metadata: { labels: { app: pricing } }
+    spec:
+      containers:
+        - name: pricing
+          image: ghcr.io/OWNER/meridian-pricing:latest
+          ports: [{ containerPort: 8001 }]
+          envFrom: [{ secretRef: { name: meridian-secrets } }]
+          readinessProbe: { httpGet: { path: /health, port: 8001 } }
+          resources: { requests: { cpu: 50m, memory: 96Mi }, limits: { cpu: 300m, memory: 256Mi } }
+          securityContext:
+            { allowPrivilegeEscalation: false, runAsNonRoot: true, capabilities: { drop: ["ALL"] } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: inventory, labels: { app: inventory } }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: inventory } }
+  template:
+    metadata: { labels: { app: inventory } }
+    spec:
+      containers:
+        - name: inventory
+          image: ghcr.io/OWNER/meridian-inventory:latest
+          ports: [{ containerPort: 8002 }]
+          envFrom: [{ secretRef: { name: meridian-secrets } }]
+          readinessProbe: { httpGet: { path: /health, port: 8002 } }
+          resources:
+            { requests: { cpu: 100m, memory: 128Mi }, limits: { cpu: 500m, memory: 512Mi } }
+          securityContext:
+            { allowPrivilegeEscalation: false, runAsNonRoot: true, capabilities: { drop: ["ALL"] } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: orders, labels: { app: orders } }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: orders } }
+  template:
+    metadata: { labels: { app: orders } }
+    spec:
+      containers:
+        - name: orders
+          image: ghcr.io/OWNER/meridian-orders:latest
+          ports: [{ containerPort: 8003 }]
+          envFrom:
+            [{ configMapRef: { name: meridian-config } }, { secretRef: { name: meridian-secrets } }]
+          readinessProbe: { httpGet: { path: /health, port: 8003 } }
+          resources:
+            { requests: { cpu: 150m, memory: 192Mi }, limits: { cpu: 750m, memory: 768Mi } }
+          securityContext:
+            { allowPrivilegeEscalation: false, runAsNonRoot: true, capabilities: { drop: ["ALL"] } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: payments, labels: { app: payments } }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: payments } }
+  template:
+    metadata: { labels: { app: payments } }
+    spec:
+      containers:
+        - name: payments
+          image: ghcr.io/OWNER/meridian-payments:latest
+          ports: [{ containerPort: 8004 }]
+          readinessProbe: { httpGet: { path: /health, port: 8004 } }
+          resources: { requests: { cpu: 50m, memory: 64Mi }, limits: { cpu: 250m, memory: 256Mi } }
+          securityContext:
+            { allowPrivilegeEscalation: false, runAsNonRoot: true, capabilities: { drop: ["ALL"] } }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: gateway, labels: { app: gateway } }
+spec:
+  replicas: 3
+  selector: { matchLabels: { app: gateway } }
+  template:
+    metadata: { labels: { app: gateway } }
+    spec:
+      containers:
+        - name: gateway
+          image: ghcr.io/OWNER/meridian-gateway:latest
+          ports: [{ containerPort: 4000 }]
+          envFrom:
+            [{ configMapRef: { name: meridian-config } }, { secretRef: { name: meridian-secrets } }]
+          readinessProbe: { tcpSocket: { port: 4000 }, initialDelaySeconds: 5 }
+          resources:
+            { requests: { cpu: 100m, memory: 128Mi }, limits: { cpu: 500m, memory: 512Mi } }
+          securityContext:
+            { allowPrivilegeEscalation: false, runAsNonRoot: true, capabilities: { drop: ["ALL"] } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: catalog }
+spec: { selector: { app: catalog }, ports: [{ port: 8000 }] }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: pricing }
+spec: { selector: { app: pricing }, ports: [{ port: 8001 }] }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: inventory }
+spec: { selector: { app: inventory }, ports: [{ port: 8002 }] }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: orders }
+spec: { selector: { app: orders }, ports: [{ port: 8003 }] }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: payments }
+spec: { selector: { app: payments }, ports: [{ port: 8004 }] }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: gateway }
+spec: { selector: { app: gateway }, ports: [{ port: 80, targetPort: 4000 }] }
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: { name: gateway }
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: gateway }
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    [
+      {
+        type: Resource,
+        resource: { name: cpu, target: { type: Utilization, averageUtilization: 65 } },
+      },
+    ]

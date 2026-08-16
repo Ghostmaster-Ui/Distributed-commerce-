@@ -1,0 +1,3 @@
+aws_region  = "us-west-2"
+environment = "dev"
+cluster_name = "meridian-commerce"
