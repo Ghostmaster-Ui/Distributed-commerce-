@@ -34,8 +34,8 @@ export default function Home() {
     [adminOpen, setAdminOpen] = useState(false);
   const [token, setToken] = useState(""),
     [user, setUser] = useState<User | null>(null),
-    [email, setEmail] = useState(CUSTOMER_DEMO.email),
-    [password, setPassword] = useState(CUSTOMER_DEMO.password);
+    [email, setEmail] = useState<string>(CUSTOMER_DEMO.email),
+    [password, setPassword] = useState<string>(CUSTOMER_DEMO.password);
   const [orders, setOrders] = useState<Order[]>([]),
     [notice, setNotice] = useState(""),
     [loading, setLoading] = useState(true),

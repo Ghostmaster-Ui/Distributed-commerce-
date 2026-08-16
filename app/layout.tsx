@@ -6,12 +6,12 @@ const sans = DM_Sans({ variable: "--font-sans", subsets: ["latin"] });
 const serif = Instrument_Serif({ variable: "--font-serif", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "Meridian — Thoughtful technology",
-  description: "Considered tools for work, sound, and life.",
-  metadataBase: new URL("http://localhost:3000"),
+  title: "Meridian Commerce Platform",
+  description: "A personal, event-driven distributed commerce platform demonstration.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001"),
   openGraph: {
-    title: "Meridian — Thoughtful technology",
-    description: "Objects that make every day flow.",
+    title: "Meridian Commerce Platform",
+    description: "A personal project demonstrating a complete distributed commerce workflow.",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
