@@ -606,7 +606,8 @@ export default function Home() {
       <section className="arch-section shell">
         <h2 className="arch-title">Platform Architecture</h2>
         <p className="arch-subtitle">
-          Meridian is a distributed commerce system — each concern is its own service, wired together through a GraphQL gateway.
+          Meridian is a distributed commerce system — each concern is its own service, wired
+          together through a GraphQL gateway.
         </p>
 
         <div className="arch-diagrams">
@@ -614,115 +615,538 @@ export default function Home() {
           <div className="arch-card">
             <h3>System Overview</h3>
             <div className="arch-diagram">
-              <svg viewBox="0 0 820 560" xmlns="http://www.w3.org/2000/svg" aria-label="System architecture diagram">
+              <svg
+                viewBox="0 0 820 560"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-label="System architecture diagram"
+              >
                 {/* defs */}
                 <defs>
-                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <marker
+                    id="arrow"
+                    markerWidth="8"
+                    markerHeight="8"
+                    refX="6"
+                    refY="3"
+                    orient="auto"
+                  >
                     <path d="M0,0 L0,6 L8,3 z" fill="#555" />
                   </marker>
-                  <marker id="arrow-rev" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto">
+                  <marker
+                    id="arrow-rev"
+                    markerWidth="8"
+                    markerHeight="8"
+                    refX="2"
+                    refY="3"
+                    orient="auto"
+                  >
                     <path d="M8,0 L8,6 L0,3 z" fill="#555" />
                   </marker>
                 </defs>
 
                 {/* Browsers row */}
-                <rect x="260" y="20" width="160" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="340" y="45" textAnchor="middle" fill="#fff" fontSize="12">Customer browser</text>
+                <rect
+                  x="260"
+                  y="20"
+                  width="160"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="340" y="45" textAnchor="middle" fill="#fff" fontSize="12">
+                  Customer browser
+                </text>
 
-                <rect x="580" y="20" width="140" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="650" y="45" textAnchor="middle" fill="#fff" fontSize="12">Admin browser</text>
+                <rect
+                  x="580"
+                  y="20"
+                  width="140"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="650" y="45" textAnchor="middle" fill="#fff" fontSize="12">
+                  Admin browser
+                </text>
 
-                <rect x="740" y="20" width="70" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="775" y="45" textAnchor="middle" fill="#fff" fontSize="10">Platform services</text>
+                <rect
+                  x="740"
+                  y="20"
+                  width="70"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="775" y="45" textAnchor="middle" fill="#fff" fontSize="10">
+                  Platform services
+                </text>
 
                 {/* Arrow: browsers → storefront */}
-                <line x1="340" y1="60" x2="340" y2="100" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <line x1="650" y1="60" x2="450" y2="100" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
+                <line
+                  x1="340"
+                  y1="60"
+                  x2="340"
+                  y2="100"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <line
+                  x1="650"
+                  y1="60"
+                  x2="450"
+                  y2="100"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
 
                 {/* Storefront */}
-                <rect x="260" y="100" width="200" height="50" rx="6" fill="#252520" stroke="#888" strokeWidth="2"/>
-                <text x="360" y="122" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Next.js-compatible</text>
-                <text x="360" y="138" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">storefront</text>
+                <rect
+                  x="260"
+                  y="100"
+                  width="200"
+                  height="50"
+                  rx="6"
+                  fill="#252520"
+                  stroke="#888"
+                  strokeWidth="2"
+                />
+                <text
+                  x="360"
+                  y="122"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  Next.js-compatible
+                </text>
+                <text
+                  x="360"
+                  y="138"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  storefront
+                </text>
 
                 {/* Platform services column */}
-                <line x1="775" y1="60" x2="680" y2="120" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="720" y="120" width="90" height="36" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="765" y="143" textAnchor="middle" fill="#fff" fontSize="11">Prometheus</text>
-                <line x1="765" y1="156" x2="765" y2="190" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="720" y="190" width="90" height="36" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="765" y="213" textAnchor="middle" fill="#fff" fontSize="11">Grafana</text>
+                <line
+                  x1="775"
+                  y1="60"
+                  x2="680"
+                  y2="120"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="720"
+                  y="120"
+                  width="90"
+                  height="36"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="765" y="143" textAnchor="middle" fill="#fff" fontSize="11">
+                  Prometheus
+                </text>
+                <line
+                  x1="765"
+                  y1="156"
+                  x2="765"
+                  y2="190"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="720"
+                  y="190"
+                  width="90"
+                  height="36"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="765" y="213" textAnchor="middle" fill="#fff" fontSize="11">
+                  Grafana
+                </text>
 
                 {/* Arrow: storefront → gateway */}
-                <line x1="290" y1="150" x2="210" y2="200" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
+                <line
+                  x1="290"
+                  y1="150"
+                  x2="210"
+                  y2="200"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
 
                 {/* Gateway */}
-                <rect x="100" y="200" width="180" height="40" rx="6" fill="#252520" stroke="#888" strokeWidth="2"/>
-                <text x="190" y="225" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Node.js GraphQL gateway</text>
+                <rect
+                  x="100"
+                  y="200"
+                  width="180"
+                  height="40"
+                  rx="6"
+                  fill="#252520"
+                  stroke="#888"
+                  strokeWidth="2"
+                />
+                <text
+                  x="190"
+                  y="225"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  Node.js GraphQL gateway
+                </text>
 
                 {/* JWT */}
-                <line x1="130" y1="240" x2="130" y2="280" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="40" y="280" width="170" height="44" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="125" y="298" textAnchor="middle" fill="#fff" fontSize="11">JWT role-based</text>
-                <text x="125" y="313" textAnchor="middle" fill="#fff" fontSize="11">authentication</text>
+                <line
+                  x1="130"
+                  y1="240"
+                  x2="130"
+                  y2="280"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="40"
+                  y="280"
+                  width="170"
+                  height="44"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="125" y="298" textAnchor="middle" fill="#fff" fontSize="11">
+                  JWT role-based
+                </text>
+                <text x="125" y="313" textAnchor="middle" fill="#fff" fontSize="11">
+                  authentication
+                </text>
 
                 {/* Redis carts */}
-                <line x1="215" y1="240" x2="280" y2="280" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="220" y="280" width="130" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="285" y="305" textAnchor="middle" fill="#fff" fontSize="11">Redis persistent carts</text>
+                <line
+                  x1="215"
+                  y1="240"
+                  x2="280"
+                  y2="280"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="220"
+                  y="280"
+                  width="130"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="285" y="305" textAnchor="middle" fill="#fff" fontSize="11">
+                  Redis persistent carts
+                </text>
 
                 {/* Arrows to microservices */}
-                <line x1="250" y1="240" x2="310" y2="350" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <line x1="270" y1="240" x2="450" y2="350" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <line x1="310" y1="240" x2="590" y2="280" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
+                <line
+                  x1="250"
+                  y1="240"
+                  x2="310"
+                  y2="350"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <line
+                  x1="270"
+                  y1="240"
+                  x2="450"
+                  y2="350"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <line
+                  x1="310"
+                  y1="240"
+                  x2="590"
+                  y2="280"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
 
                 {/* Order service */}
-                <ellipse cx="590" cy="300" rx="90" ry="26" fill="#252520" stroke="#888" strokeWidth="2"/>
-                <text x="590" y="305" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">FastAPI Order service</text>
+                <ellipse
+                  cx="590"
+                  cy="300"
+                  rx="90"
+                  ry="26"
+                  fill="#252520"
+                  stroke="#888"
+                  strokeWidth="2"
+                />
+                <text
+                  x="590"
+                  y="305"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  FastAPI Order service
+                </text>
 
                 {/* Catalog */}
-                <rect x="230" y="350" width="150" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="305" y="375" textAnchor="middle" fill="#fff" fontSize="11">FastAPI Catalog service</text>
+                <rect
+                  x="230"
+                  y="350"
+                  width="150"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="305" y="375" textAnchor="middle" fill="#fff" fontSize="11">
+                  FastAPI Catalog service
+                </text>
 
                 {/* Pricing */}
-                <rect x="390" y="350" width="140" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="460" y="375" textAnchor="middle" fill="#fff" fontSize="11">FastAPI Pricing service</text>
+                <rect
+                  x="390"
+                  y="350"
+                  width="140"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="460" y="375" textAnchor="middle" fill="#fff" fontSize="11">
+                  FastAPI Pricing service
+                </text>
 
                 {/* Inventory */}
-                <line x1="590" y1="326" x2="590" y2="348" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="530" y="350" width="140" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="600" y="375" textAnchor="middle" fill="#fff" fontSize="11">FastAPI Inventory service</text>
+                <line
+                  x1="590"
+                  y1="326"
+                  x2="590"
+                  y2="348"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="530"
+                  y="350"
+                  width="140"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="600" y="375" textAnchor="middle" fill="#fff" fontSize="11">
+                  FastAPI Inventory service
+                </text>
 
                 {/* Payment */}
-                <rect x="680" y="350" width="130" height="44" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="745" y="369" textAnchor="middle" fill="#fff" fontSize="11">FastAPI Mock</text>
-                <text x="745" y="383" textAnchor="middle" fill="#fff" fontSize="11">Payment service</text>
+                <rect
+                  x="680"
+                  y="350"
+                  width="130"
+                  height="44"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="745" y="369" textAnchor="middle" fill="#fff" fontSize="11">
+                  FastAPI Mock
+                </text>
+                <text x="745" y="383" textAnchor="middle" fill="#fff" fontSize="11">
+                  Payment service
+                </text>
 
                 {/* Order ↔ payment */}
-                <line x1="680" y1="340" x2="670" y2="326" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <line x1="700" y1="326" x2="710" y2="340" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
+                <line
+                  x1="680"
+                  y1="340"
+                  x2="670"
+                  y2="326"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <line
+                  x1="700"
+                  y1="326"
+                  x2="710"
+                  y2="340"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
 
                 {/* Redis quote cache */}
-                <line x1="460" y1="390" x2="420" y2="440" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="340" y="440" width="150" height="40" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="415" y="465" textAnchor="middle" fill="#fff" fontSize="11">Redis quote cache</text>
+                <line
+                  x1="460"
+                  y1="390"
+                  x2="420"
+                  y2="440"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="340"
+                  y="440"
+                  width="150"
+                  height="40"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="415" y="465" textAnchor="middle" fill="#fff" fontSize="11">
+                  Redis quote cache
+                </text>
 
                 {/* PostgreSQL */}
-                <line x1="305" y1="390" x2="480" y2="455" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <line x1="600" y1="390" x2="540" y2="450" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <ellipse cx="520" cy="475" rx="70" ry="26" fill="#252520" stroke="#888" strokeWidth="2"/>
-                <text x="520" y="480" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">PostgreSQL</text>
+                <line
+                  x1="305"
+                  y1="390"
+                  x2="480"
+                  y2="455"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <line
+                  x1="600"
+                  y1="390"
+                  x2="540"
+                  y2="450"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <ellipse
+                  cx="520"
+                  cy="475"
+                  rx="70"
+                  ry="26"
+                  fill="#252520"
+                  stroke="#888"
+                  strokeWidth="2"
+                />
+                <text
+                  x="520"
+                  y="480"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  PostgreSQL
+                </text>
 
                 {/* Kafka/Redpanda */}
-                <line x1="745" y1="394" x2="680" y2="450" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <line x1="620" y1="390" x2="660" y2="450" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="630" y="450" width="140" height="44" rx="6" fill="#252520" stroke="#888" strokeWidth="2"/>
-                <text x="700" y="469" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Kafka-compatible</text>
-                <text x="700" y="483" textAnchor="middle" fill="#fff" fontSize="12" fontWeight="600">Redpanda</text>
+                <line
+                  x1="745"
+                  y1="394"
+                  x2="680"
+                  y2="450"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <line
+                  x1="620"
+                  y1="390"
+                  x2="660"
+                  y2="450"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="630"
+                  y="450"
+                  width="140"
+                  height="44"
+                  rx="6"
+                  fill="#252520"
+                  stroke="#888"
+                  strokeWidth="2"
+                />
+                <text
+                  x="700"
+                  y="469"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  Kafka-compatible
+                </text>
+                <text
+                  x="700"
+                  y="483"
+                  textAnchor="middle"
+                  fill="#fff"
+                  fontSize="12"
+                  fontWeight="600"
+                >
+                  Redpanda
+                </text>
 
                 {/* WebSocket */}
-                <line x1="700" y1="494" x2="700" y2="520" stroke="#555" strokeWidth="1.5" markerEnd="url(#arrow)"/>
-                <rect x="620" y="520" width="160" height="36" rx="6" fill="#1a1a1a" stroke="#555" strokeWidth="1.5"/>
-                <text x="700" y="543" textAnchor="middle" fill="#fff" fontSize="11">WebSocket status updates</text>
+                <line
+                  x1="700"
+                  y1="494"
+                  x2="700"
+                  y2="520"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                  markerEnd="url(#arrow)"
+                />
+                <rect
+                  x="620"
+                  y="520"
+                  width="160"
+                  height="36"
+                  rx="6"
+                  fill="#1a1a1a"
+                  stroke="#555"
+                  strokeWidth="1.5"
+                />
+                <text x="700" y="543" textAnchor="middle" fill="#fff" fontSize="11">
+                  WebSocket status updates
+                </text>
               </svg>
             </div>
           </div>
@@ -731,12 +1155,30 @@ export default function Home() {
           <div className="arch-card">
             <h3>Checkout Sequence</h3>
             <div className="arch-diagram">
-              <svg viewBox="0 0 820 520" xmlns="http://www.w3.org/2000/svg" aria-label="Checkout sequence diagram">
+              <svg
+                viewBox="0 0 820 520"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-label="Checkout sequence diagram"
+              >
                 <defs>
-                  <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <marker
+                    id="arr2"
+                    markerWidth="8"
+                    markerHeight="8"
+                    refX="6"
+                    refY="3"
+                    orient="auto"
+                  >
                     <path d="M0,0 L0,6 L8,3 z" fill="#888" />
                   </marker>
-                  <marker id="arr2-dash" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <marker
+                    id="arr2-dash"
+                    markerWidth="8"
+                    markerHeight="8"
+                    refX="6"
+                    refY="3"
+                    orient="auto"
+                  >
                     <path d="M0,0 L0,6 L8,3 z" fill="#555" />
                   </marker>
                 </defs>
@@ -758,18 +1200,74 @@ export default function Home() {
                     <g key={i}>
                       {i === 0 ? (
                         <>
-                          <circle cx={lx + 20} cy="22" r="12" fill="none" stroke="#888" strokeWidth="1.5"/>
-                          <line x1={lx+20} y1="34" x2={lx+20} y2="46" stroke="#888" strokeWidth="1.5"/>
-                          <line x1={lx+5} y1="56" x2={lx+35} y2="56" stroke="#888" strokeWidth="1.5"/>
-                          <line x1={lx+20} y1="46" x2={lx+5} y2="60" stroke="#888" strokeWidth="1.5"/>
-                          <line x1={lx+20} y1="46" x2={lx+35} y2="60" stroke="#888" strokeWidth="1.5"/>
-                          <text x={lx+20} y="78" textAnchor="middle" fill="#ccc" fontSize="10">Customer</text>
+                          <circle
+                            cx={lx + 20}
+                            cy="22"
+                            r="12"
+                            fill="none"
+                            stroke="#888"
+                            strokeWidth="1.5"
+                          />
+                          <line
+                            x1={lx + 20}
+                            y1="34"
+                            x2={lx + 20}
+                            y2="46"
+                            stroke="#888"
+                            strokeWidth="1.5"
+                          />
+                          <line
+                            x1={lx + 5}
+                            y1="56"
+                            x2={lx + 35}
+                            y2="56"
+                            stroke="#888"
+                            strokeWidth="1.5"
+                          />
+                          <line
+                            x1={lx + 20}
+                            y1="46"
+                            x2={lx + 5}
+                            y2="60"
+                            stroke="#888"
+                            strokeWidth="1.5"
+                          />
+                          <line
+                            x1={lx + 20}
+                            y1="46"
+                            x2={lx + 35}
+                            y2="60"
+                            stroke="#888"
+                            strokeWidth="1.5"
+                          />
+                          <text x={lx + 20} y="78" textAnchor="middle" fill="#ccc" fontSize="10">
+                            Customer
+                          </text>
                         </>
                       ) : (
                         <>
-                          <rect x={lx} y="10" width="80" height={lines.length > 1 ? 36 : 28} rx="4" fill="#1e1e1a" stroke="#666" strokeWidth="1.5"/>
+                          <rect
+                            x={lx}
+                            y="10"
+                            width="80"
+                            height={lines.length > 1 ? 36 : 28}
+                            rx="4"
+                            fill="#1e1e1a"
+                            stroke="#666"
+                            strokeWidth="1.5"
+                          />
                           {lines.map((line, li) => (
-                            <text key={li} x={lx+40} y={lines.length > 1 ? 24+li*13 : 28} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="600">{line}</text>
+                            <text
+                              key={li}
+                              x={lx + 40}
+                              y={lines.length > 1 ? 24 + li * 13 : 28}
+                              textAnchor="middle"
+                              fill="#fff"
+                              fontSize="10"
+                              fontWeight="600"
+                            >
+                              {line}
+                            </text>
                           ))}
                         </>
                       )}
@@ -779,7 +1277,16 @@ export default function Home() {
 
                 {/* Lifelines */}
                 {[50, 185, 295, 405, 495, 585, 675, 765].map((x, i) => (
-                  <line key={i} x1={x} y1="90" x2={x} y2="490" stroke="#333" strokeWidth="1" strokeDasharray="4,4"/>
+                  <line
+                    key={i}
+                    x1={x}
+                    y1="90"
+                    x2={x}
+                    y2="490"
+                    stroke="#333"
+                    strokeWidth="1"
+                    strokeDasharray="4,4"
+                  />
                 ))}
 
                 {/* Messages */}
@@ -796,25 +1303,32 @@ export default function Home() {
                   [675, 765, 319, "Publish order event", false, false],
                   [765, 295, 342, "Stream status update", true, true],
                   [295, 185, 365, "Clear cart after confirmation", true, true],
-                ].map(([x1, x2, y, label, isDash, isReturn], i) => {
-                  const lx1 = x1 as number, lx2 = x2 as number, ly = y as number;
-                  const isLeft = lx2 < lx1;
+                ].map(([x1, x2, y, label, isDash], i) => {
+                  const lx1 = x1 as number,
+                    lx2 = x2 as number,
+                    ly = y as number;
                   return (
                     <g key={i}>
                       <line
-                        x1={lx1} y1={ly} x2={lx2} y2={ly}
+                        x1={lx1}
+                        y1={ly}
+                        x2={lx2}
+                        y2={ly}
                         stroke={isDash ? "#555" : "#888"}
                         strokeWidth="1.5"
                         strokeDasharray={isDash ? "5,4" : undefined}
                         markerEnd="url(#arr2)"
                       />
                       <text
-                        x={(lx1+lx2)/2} y={ly-5}
+                        x={(lx1 + lx2) / 2}
+                        y={ly - 5}
                         textAnchor="middle"
                         fill={isDash ? "#888" : "#bbb"}
                         fontSize="9.5"
                         fontStyle={isDash ? "italic" : "normal"}
-                      >{label as string}</text>
+                      >
+                        {label as string}
+                      </text>
                     </g>
                   );
                 })}
@@ -836,14 +1350,42 @@ export default function Home() {
                     <g key={i}>
                       {i === 0 ? (
                         <>
-                          <circle cx={lx + 20} cy="498" r="12" fill="none" stroke="#888" strokeWidth="1.5"/>
-                          <text x={lx+20} y="514" textAnchor="middle" fill="#ccc" fontSize="10">Customer</text>
+                          <circle
+                            cx={lx + 20}
+                            cy="498"
+                            r="12"
+                            fill="none"
+                            stroke="#888"
+                            strokeWidth="1.5"
+                          />
+                          <text x={lx + 20} y="514" textAnchor="middle" fill="#ccc" fontSize="10">
+                            Customer
+                          </text>
                         </>
                       ) : (
                         <>
-                          <rect x={lx} y="490" width="80" height={lines.length > 1 ? 36 : 28} rx="4" fill="#1e1e1a" stroke="#666" strokeWidth="1.5"/>
+                          <rect
+                            x={lx}
+                            y="490"
+                            width="80"
+                            height={lines.length > 1 ? 36 : 28}
+                            rx="4"
+                            fill="#1e1e1a"
+                            stroke="#666"
+                            strokeWidth="1.5"
+                          />
                           {lines.map((line, li) => (
-                            <text key={li} x={lx+40} y={lines.length > 1 ? 504+li*13 : 508} textAnchor="middle" fill="#fff" fontSize="10" fontWeight="600">{line}</text>
+                            <text
+                              key={li}
+                              x={lx + 40}
+                              y={lines.length > 1 ? 504 + li * 13 : 508}
+                              textAnchor="middle"
+                              fill="#fff"
+                              fontSize="10"
+                              fontWeight="600"
+                            >
+                              {line}
+                            </text>
                           ))}
                         </>
                       )}
