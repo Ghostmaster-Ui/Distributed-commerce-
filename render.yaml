@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: meridian-commerce-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./deploy/render/Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: EVENT_TRANSPORT
+        value: local
+      - key: DATABASE_POOL_SIZE
+        value: 3

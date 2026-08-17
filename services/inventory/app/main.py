@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 
 pool: asyncpg.Pool | None = None
 producer: AIOKafkaProducer | None = None
+event_transport = os.getenv("EVENT_TRANSPORT", "kafka").lower()
 
 
 class Reservation(BaseModel):
@@ -23,14 +24,18 @@ class Reservation(BaseModel):
 async def lifespan(_: FastAPI):
     global pool, producer
     pool = await asyncpg.create_pool(
-        os.getenv("DATABASE_URL", "postgresql://meridian:meridian@localhost:5432/meridian")
+        os.getenv("DATABASE_URL", "postgresql://meridian:meridian@localhost:5432/meridian"),
+        min_size=1,
+        max_size=int(os.getenv("DATABASE_POOL_SIZE", "5")),
     )
-    producer = AIOKafkaProducer(
-        bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
-    )
-    await producer.start()
+    if event_transport == "kafka":
+        producer = AIOKafkaProducer(
+            bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+        )
+        await producer.start()
     yield
-    await producer.stop()
+    if producer:
+        await producer.stop()
     await pool.close()
 
 
@@ -72,5 +77,6 @@ async def reserve(item: Reservation):
         "productId": str(item.productId),
         "quantity": item.quantity,
     }
-    await producer.send_and_wait("inventory.events", json.dumps(event).encode())
+    if producer:
+        await producer.send_and_wait("inventory.events", json.dumps(event).encode())
     return {**event, "status": "reserved"}

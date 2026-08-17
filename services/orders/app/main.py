@@ -16,6 +16,7 @@ pool: asyncpg.Pool | None = None
 producer: AIOKafkaProducer | None = None
 consumer_task: asyncio.Task | None = None
 connections: dict[str, set[WebSocket]] = {}
+event_transport = os.getenv("EVENT_TRANSPORT", "kafka").lower()
 
 
 class OrderItem(BaseModel):
@@ -61,20 +62,25 @@ async def consume_events():
 async def lifespan(_: FastAPI):
     global pool, producer, consumer_task
     pool = await asyncpg.create_pool(
-        os.getenv("DATABASE_URL", "postgresql://meridian:meridian@localhost:5432/meridian")
+        os.getenv("DATABASE_URL", "postgresql://meridian:meridian@localhost:5432/meridian"),
+        min_size=1,
+        max_size=int(os.getenv("DATABASE_POOL_SIZE", "5")),
     )
     async with pool.acquire() as connection:
         await connection.execute(
             """CREATE TABLE IF NOT EXISTS orders (id UUID PRIMARY KEY, user_id TEXT NOT NULL, status TEXT NOT NULL, total NUMERIC(12,2) NOT NULL, currency CHAR(3) NOT NULL DEFAULT 'USD', items JSONB NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW())"""
         )
-    producer = AIOKafkaProducer(
-        bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
-    )
-    await producer.start()
-    consumer_task = asyncio.create_task(consume_events())
+    if event_transport == "kafka":
+        producer = AIOKafkaProducer(
+            bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
+        )
+        await producer.start()
+        consumer_task = asyncio.create_task(consume_events())
     yield
-    consumer_task.cancel()
-    await producer.stop()
+    if consumer_task:
+        consumer_task.cancel()
+    if producer:
+        await producer.stop()
     await pool.close()
 
 
@@ -88,7 +94,8 @@ async def health():
 
 
 async def emit(event: dict):
-    await producer.send_and_wait("order.events", json.dumps(event).encode())
+    if producer:
+        await producer.send_and_wait("order.events", json.dumps(event).encode())
     await broadcast(event["orderId"], event)
 
 

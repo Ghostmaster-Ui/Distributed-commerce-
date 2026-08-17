@@ -1,0 +1,14 @@
+.git
+.github
+.next
+.vinext
+.wrangler
+dist
+node_modules
+gateway/node_modules
+__pycache__
+.pytest_cache
+.ruff_cache
+*.pyc
+*.log
+.env

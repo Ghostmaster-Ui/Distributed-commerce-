@@ -9,6 +9,23 @@
 
 Services are exposed on ports 4000, 8000–8004, 9090, and 3002.
 
+## Free portfolio deployment
+
+The storefront is deployed on Netlify. The public demo backend can be deployed as
+one Docker web service on Render using `render.yaml`, with persistent PostgreSQL
+from Neon and Redis from Upstash.
+
+1. Create free Neon and Upstash databases and copy their connection URLs.
+2. In Render, create a Blueprint from this repository.
+3. Enter `DATABASE_URL` and `REDIS_URL` when prompted; Render generates
+   `JWT_SECRET` automatically.
+4. Set Netlify's `NEXT_PUBLIC_GRAPHQL_URL` to the Render service URL and redeploy.
+
+The free demo uses `EVENT_TRANSPORT=local` to fit Render's memory limit. The
+Docker Compose and Kubernetes deployments continue to use Kafka/Redpanda. Free
+Render services sleep after 15 minutes without traffic and wake on the next
+request, so the first request after an idle period can be slower.
+
 ## AWS dev environment
 
 Infrastructure creates billable AWS resources. Review the plan and AWS pricing before applying.

@@ -36,7 +36,7 @@ ON CONFLICT (slug) DO NOTHING;
 
 async def connect() -> None:
     global pool
-    pool = await asyncpg.create_pool(settings.database_url, min_size=1, max_size=10)
+    pool = await asyncpg.create_pool(settings.database_url, min_size=1, max_size=5)
     async with pool.acquire() as connection:
         await connection.execute(SCHEMA)
         await connection.execute(SEED)
