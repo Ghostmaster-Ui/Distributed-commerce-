@@ -1381,3 +1381,54 @@ body {
     display: none;
   }
 }
+
+/* Architecture section */
+.arch-section {
+  padding: 80px 0 100px;
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+}
+.arch-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.arch-subtitle {
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 48px;
+  max-width: 560px;
+}
+.arch-diagrams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.arch-card {
+  background: #111110;
+  border-radius: 12px;
+  padding: 28px 24px 20px;
+  border: 1px solid #2a2a28;
+}
+.arch-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 20px;
+}
+.arch-diagram {
+  overflow-x: auto;
+}
+.arch-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 900px) {
+  .arch-diagrams {
+    grid-template-columns: 1fr;
+  }
+}
